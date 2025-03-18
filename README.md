@@ -27,12 +27,14 @@ Your task is to investigate John's activities on his corporate device (Andrew-Se
 
 ### **ABLE Framework for Cryptomining Hunt**
 
-- **Actor**: None. This is reasonably common for things such as cryptomining, which may not be strongly tied to a specific threat actor.
-- **Behavior**: Based on our research, we know that cryptominers typically require large amounts of CPU and/or GPU time, which can be costly for legitimate miners. This is why many cryptocurrency-oriented threat actors resort to stealing resources. We’re looking for a variant of MITRE ID T1496, “Resource Hijacking”. 
-- **Location**: “Servers and cloud-based systems are common targets because of the high potential for available resources, but user endpoint systems may also be compromised and used for Resource Hijacking and cryptocurrency mining” (MITRE ATT&CK, Resource Hijacking). Due to the small data, we are looking at all hosts, but in a "real" hunt with more data, we might hunt on specific sets of endpoints, for example DMZ servers, first.
-- **Evidence**: There are two data sources within BOTSv3 that are relevant to this hunt.
-  - **PerfmonMk:Process**: Windows performance monitoring logs.
-  - **stream:dns**: DNS query logs to check for cryptomining domains.
+- **Actor**: Employee John Doe
+- **Behavior**: Based on research, we know that threat actors will typically compress data in order to exfiltrate. We will look for any compression tools used recently by John
+- **Location**: Azure VM endpoint (Andrew-Sentinel)
+- **Evidence**: Relevant tables that will be queried using KQL
+  - **DeviceFileEvents**: Contains information about file creation, modification, and other file system events
+  - **DeviceProcessEvents**: Contains information about process creation and related events
+  - **DeviceNetworkEvents**: Contains information about network connections and related events
+
 
 # Plan
 Now that your research is comprehensive and the ABLE data is organized, the next crucial step involves formulating a plan for the approaches you intend to use in validating your hypothesis. For our example, here are the approaches we are going to incorporate in our plan, both based on MITRE ATT&CK detections for Resource Hijacking:
