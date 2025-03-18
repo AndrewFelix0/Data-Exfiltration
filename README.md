@@ -15,7 +15,7 @@
 ### Hunting for Data Exfiltration:
 - [Exfiltration- MITRE ATT&CK](https://attack.mitre.org/tactics/TA0010/)
 - [Detecting data exfiltration activities](https://lantern.splunk.com/Security/UCE/Guided_Insights/Anomaly_detection/Detecting_data_exfiltration_activities#:~:text=When%20attackers%20are%20looking%20to,systems%20and%20observing%20user%20activity.)
-- [Cryptocurrency mining domain lists](#)
+- [How To Detect Data Exfiltration](https://www.blumira.com/blog/detecting-data-exfiltration)
 
 ## Generate Hypothesis
 Building on the research conducted, the next step is to generate a hypothesis that will serve as the basis for your hunt. Make sure your hypothesis is testable so that you can either confirm or refute it while hunting. For this example, our hypothesis is:
