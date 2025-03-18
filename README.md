@@ -30,22 +30,18 @@ Your task is to investigate John's activities on his corporate device (Andrew-Se
 - **Actor**: Employee John Doe
 - **Behavior**: Based on research, we know that threat actors will typically compress data in order to exfiltrate. We will look for any compression tools used recently by John
 - **Location**: Azure VM endpoint (Andrew-Sentinel)
-- **Evidence**: Relevant tables that will be queried using KQL
-  - **DeviceFileEvents**: Contains information about file creation, modification, and other file system events
-  - **DeviceProcessEvents**: Contains information about process creation and related events
-  - **DeviceNetworkEvents**: Contains information about network connections and related events
+- **Evidence**: Using KQL, search for any relevant tables that prove the use of Data Exfiltration 
 
 
 # Plan
-Now that your research is comprehensive and the ABLE data is organized, the next crucial step involves formulating a plan for the approaches you intend to use in validating your hypothesis. For our example, here are the approaches we are going to incorporate in our plan, both based on MITRE ATT&CK detections for Resource Hijacking:
 
-### **Approach 1: Sensor Health (DS0013)**
-- Hunt for hijacking of computer resources via CPU utilization spikes or sustained high CPU usage.
-- Investigate any suspicious processes exhibiting high CPU utilization.
+Look for anomalies, patterns, or indicators of compromise (IOCs) using various tools and techniques. 
 
-### **Approach 2: Network Traffic (DS0029)**
-- Hunt for network traffic flows or connection creations.
-- Use known blacklists of cryptomining domains to identify connections.
+Query the following tables:
+
+- **DeviceFileEvents**: Contains information about file creation, modification, and other file system events
+- **DeviceProcessEvents**: Contains information about process creation and related events
+- **DeviceNetworkEvents**: Contains information about network connections and related events
 
 ---
 
