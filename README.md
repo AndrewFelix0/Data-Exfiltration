@@ -19,13 +19,11 @@ Data exfiltration is the act of collecting data from a network and moving that d
 - [Detecting data exfiltration activities](https://lantern.splunk.com/Security/UCE/Guided_Insights/Anomaly_detection/Detecting_data_exfiltration_activities#:~:text=When%20attackers%20are%20looking%20to,systems%20and%20observing%20user%20activity.)
 - [How To Detect Data Exfiltration](https://www.blumira.com/blog/detecting-data-exfiltration)
 
-## Generate Hypothesis
-Building on the research conducted, the next step is to generate a hypothesis that will serve as the basis for your hunt. Make sure your hypothesis is testable so that you can either confirm or refute it while hunting. For this example, our hypothesis is:
-
-> **“There might be unauthorized cryptocurrency mining happening on the network.”**
+## Hypothesis
+An employee named John Doe, working in a sensitive department, recently got put on a performance improvement plan (PIP). After John threw a fit, management has raised concerns that John may be planning to steal proprietary information and then quit the company. John is an administrator on his device and is not limited on which applications he uses. He may try to archive/compress sensitive information and send it to a private drive or server.
 
 ## Scope Hunt
-With your hypothesis set and ready, it is time to define the boundaries of investigation for the scope of your hunt. The scope will include setting a maximum duration for the hunt and utilizing the **Actor, Behavior, Location, Evidence (ABLE) framework** to assist in capturing the essential elements of your hunting hypothesis. 
+Your task is to investigate John's activities on his corporate device (Andrew-Sentinel) using Microsoft Defender for Endpoint (MDE) and ensure nothing suspicious is taking place
 
 ### **ABLE Framework for Cryptomining Hunt**
 
