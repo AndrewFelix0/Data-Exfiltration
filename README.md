@@ -1,11 +1,13 @@
-#Hypothesis-Driven Threat Hunting with PEAK
+# Hypothesis-Driven Threat Hunting with PEAK
 
 
 ## Topic: Data-Exfiltration
 
 
 
-## Research Topic
+## Research
+
+Data exfiltration is the act of collecting data from a network and moving that data out of that network. This data will typically be compressed and encrypted to help avoid detection and then transffered over to a C2 server. This attack can be carried out by both external and internal threats actors.
 
 ### Understanding Data Exfiltration:
 - [What is Data Exfiltration?](https://www.paloaltonetworks.com/cyberpedia/data-exfiltration)
