@@ -8,16 +8,13 @@
 ## Research Topic
 
 ### Understanding Data Exfiltration:
-- [What is Data Exfiltration](https://www.paloaltonetworks.com/cyberpedia/data-exfiltration)
-- [What is Cryptojacking and how does it work?](#)
-- [Ransomware May Be Dying Out, But Cryptojacking Is Up 399%](#)
-- [The Cryptomining Malware Family](#)
-- [A First Look at Browser-Based Cryptojacking](#)
-- [Who and What is Coinhive?](#)
+- [What is Data Exfiltration?](https://www.paloaltonetworks.com/cyberpedia/data-exfiltration)
+- [12 Real-World Examples of data exfiltration](https://gravyty.com/blog/data-exfiltration-examples/)
+- [Data Exfiltration: Prevention, Risks & Best Practices](https://www.splunk.com/en_us/blog/learn/data-exfiltration.html)
 
-### Hunting for Cryptomining:
-- [Detecting XMRig CPU or GPU mining](#)
-- [Resource Hijacking (MITRE ATT&CK)](#)
+### Hunting for Data Exfiltration:
+- [Exfiltration- MITRE ATT&CK](https://attack.mitre.org/tactics/TA0010/)
+- [Detecting data exfiltration activities](https://lantern.splunk.com/Security/UCE/Guided_Insights/Anomaly_detection/Detecting_data_exfiltration_activities#:~:text=When%20attackers%20are%20looking%20to,systems%20and%20observing%20user%20activity.)
 - [Cryptocurrency mining domain lists](#)
 
 ## Generate Hypothesis
