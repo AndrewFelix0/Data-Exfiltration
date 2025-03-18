@@ -6,10 +6,9 @@
 
 
 ## Research Topic
-Once you have identified the topic of interest, the next step entails gaining a comprehensive understanding of the chosen topic through research. This research serves as a foundational step in refining your hypothesis and crafting a more informed approach to the hunt. For our example, our research included the following resources:
 
-### Understanding Cryptomining/Cryptojacking:
-- [What Is Crypto Mining? Cryptocurrency Mining Types and Methods](#)
+### Understanding Data Exfiltration:
+- [What is Data Exfiltration](https://www.paloaltonetworks.com/cyberpedia/data-exfiltration)
 - [What is Cryptojacking and how does it work?](#)
 - [Ransomware May Be Dying Out, But Cryptojacking Is Up 399%](#)
 - [The Cryptomining Malware Family](#)
