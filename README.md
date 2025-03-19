@@ -184,12 +184,50 @@ CloudAppEvents
 - **Monitor endpoint activity in real-time** using MDE’s Live Response feature for deeper forensic analysis.
 
 
-## Communicate Findings
-Share your hunting discoveries with relevant stakeholders, such as the **SOC, system owners, or security teams**. Methods can include:
-- Reports
-- Briefings
-- Emails summarizing findings
+# Communication
+
+
+## Incident Report: Suspected Data Exfiltration
+### Audience: SOC, System Owners, Security Teams 
+
+### Summary  
+A PowerShell script executed with administrative privileges was used to silently install 7-Zip, compress sensitive employee data into an archive, and store it in a backup folder. No evidence of successful data exfiltration was found, but this activity indicates a potential insider threat or unauthorized automation.
+
+## Impact Assessment  
+- **Risk Level:** Medium-High  
+- **Potential Consequences:** Data exfiltration risk, unauthorized software installations, privilege misuse.  
+- **Affected Systems:** Workstations with local admin privileges.  
 
 ---
 
-**This concludes our threat hunting process using Splunk for detecting unauthorized cryptocurrency mining.** 🚀
+## Recommendations & Next Steps  
+
+### For the SOC Team:  
+✅ Enable **detections in Microsoft Defender for Endpoint (MDE)** for:  
+   - PowerShell executions with administrative privileges.  
+   - Silent installations of 7-Zip or similar software.  
+   - Archiving of sensitive data using unauthorized tools.  
+
+✅ **Implement hunting queries in Microsoft Sentinel** (KQL queries provided).  
+
+✅ Conduct **additional threat hunting** to verify whether similar activity has occurred elsewhere.  
+
+---
+
+### For System Owners & Security Teams:  
+🔒 **Restrict PowerShell Execution Policies** to prevent unauthorized script execution.  
+
+🚫 **Block Unapproved Software Installations** via Group Policy or Application Control (WDAC/ASR).  
+
+📂 **Enable File Integrity Monitoring (FIM)** on directories storing sensitive employee data.  
+
+🔍 **Monitor Cloud Storage and Email Uploads** for unexpected data transfers.  
+
+---
+
+## Next Steps & Follow-Up Actions  
+📅 **SOC Team:** Review and implement Sentinel detections within **48 hours**.  
+📅 **System Owners:** Restrict installation privileges by **end of the week**.  
+📅 **Security Teams:** Conduct **follow-up investigations** on similar activity.  
+
+---
