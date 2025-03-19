@@ -112,12 +112,7 @@ A summary of this hunt can be used in the future if suspected data exfiltration 
 ```
 
 ## Document Findings
-Your documentation of findings represents the significance and impact of your hunt. Include:
-- Malicious activities found
-- Affected assets/accounts/applications
-- Potential incidents escalated
-- Data or detection gaps found
-- Misconfigurations identified
+Though there was no evidence of successful data exfiltration, employee John Doe was able to run a PowerShell script with administrative privileges to compress and archive files.
 
 ## Create Detections
 Regardless of how your organization’s change process is, your findings should be converted into production detection rules or signatures to catch similar threats in the future. Using your hunts to improve automated detection is the other key driver behind the continuous improvement of your organization’s security posture. 
