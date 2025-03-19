@@ -93,7 +93,7 @@ DeviceNetworkEvents
 ```
 
 ### **Executive Summary**
-> **On (2025-03-17T00:04:21.1003474Z) evidence was found that John Doe used a powershell script to compress data into a 7zip file and archived it into a "backup" folder, no evidence was found of that data being exfiltrated.**
+> **On (2025-03-17T00:04:21.1003474Z) evidence was found that John Doe used a powershell script to compress data into a 7zip file and archived it into a "backup" folder, no evidence was found of that data being exfiltrated. However his account should still be monitored just in case. Adjustments need to be made such as what employees can have administrative privledges on there devices. Also update policies that prevent users from running automated powershell scripts on company devices**
 
 ---
 
@@ -114,8 +114,7 @@ A summary of this hunt can be used in the future if suspected data exfiltration 
 ## Document Findings
 Though there was no evidence of successful data exfiltration, employee John Doe was able to run a PowerShell script with administrative privileges to compress and archive files.
 
-# Detections
-## Detection Rules for Microsoft Sentinel
+# Detection Rules for Microsoft Sentinel
 
 ## 1. PowerShell Suspicious Activity Alert
 
@@ -184,10 +183,9 @@ CloudAppEvents
 - **Monitor endpoint activity in real-time** using MDE’s Live Response feature for deeper forensic analysis.
 
 
-# Communication
 
+# Incident Report: Suspected Data Exfiltration
 
-## Incident Report: Suspected Data Exfiltration
 ### Audience: SOC, System Owners, Security Teams 
 
 ### Summary  
