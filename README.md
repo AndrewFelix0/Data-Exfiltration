@@ -1,7 +1,4 @@
-# Hypothesis-Driven Threat Hunting with PEAK
-
-
-## Topic: Data-Exfiltration
+# Topic: Data-Exfiltration
 
 
 
@@ -45,9 +42,7 @@ Query the following tables:
 
 ---
 
-# Execute
-
-## Gather Data
+# Gathering Data
 
 
 We searched within MDE ``DeviceFileEvents`` for any zip file activity and observed frequent instances of files being archived and moved to a "backup" folder as part of regular activity.
@@ -97,7 +92,7 @@ DeviceNetworkEvents
 
 ---
 
-# Act: Wrapping Up the Investigation
+# Wrapping Up the Investigation
 
 ## Preserve Hunt
 A summary of this hunt can be used in the future if suspected data exfiltration is seen
