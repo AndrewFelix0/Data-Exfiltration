@@ -114,13 +114,75 @@ A summary of this hunt can be used in the future if suspected data exfiltration 
 ## Document Findings
 Though there was no evidence of successful data exfiltration, employee John Doe was able to run a PowerShell script with administrative privileges to compress and archive files.
 
-## Create Detections
-Regardless of how your organization’s change process is, your findings should be converted into production detection rules or signatures to catch similar threats in the future. Using your hunts to improve automated detection is the other key driver behind the continuous improvement of your organization’s security posture. 
+# Detections
+## Detection Rules for Microsoft Sentinel
 
-Keep in mind that, according to PEAK’s Hierarchy of Detection Outputs, you have multiple options for the detections you create. For example, while the DNS analysis might make a great choice for an automated alert, the CPU usage analysis is only suggestive of cryptomining, and not suitable for automated alerting. In this case, it might be better to create a dashboard using those results and have an analyst review it on a regular basis.
+## 1. PowerShell Suspicious Activity Alert
 
-## Re-Add Topic to Backlog
-If new insights arise, add them to your hunt backlog for future investigation.
+**Description:** Detects when PowerShell executes administrative commands related to file compression.
+
+**Log Source:** Microsoft Defender for Endpoint logs (SecurityEvent, DeviceProcessEvents)
+
+```kql
+SecurityEvent  
+| where EventID == 4688  // Process creation event  
+| where NewProcessName contains "powershell.exe"  
+| where CommandLine contains "Compress-Archive" or CommandLine contains "7z.exe a"
+```
+
+---
+
+## 2. Unexpected Software Installation Alert
+
+**Description:** Detects installation of compression tools like 7-Zip, WinRAR, or other utilities used for data exfiltration.
+
+**Log Source:** DeviceProcessEvents
+
+```kql
+SecurityEvent  
+| where EventID == 4688  
+| where NewProcessName contains "msiexec.exe" or NewProcessName contains "choco.exe" or NewProcessName contains "winget.exe"
+| where CommandLine contains "7zip" or CommandLine contains "winrar"
+```
+
+---
+
+## 3. Abnormal File Archiving and Movement
+
+**Description:** Monitors when a user archives files and moves them to an external or unusual directory.
+
+**Log Source:** DeviceFileEvents
+
+```kql
+DeviceFileEvents  
+| where FileName endswith ".zip" or FileName endswith ".7z"  
+| where FolderPath contains "C:\\Users\\Public" or FolderPath contains "D:\\Backup"
+```
+
+---
+
+## 4. File Upload to External Location
+
+**Description:** Alerts if a newly created archive is uploaded to cloud storage (OneDrive, Google Drive) or sent via email.
+
+**Log Source:** Microsoft Defender for Cloud Apps logs
+
+```kql
+CloudAppEvents  
+| where ActionType contains "Upload"  
+| where Destination contains "drive.google.com" or Destination contains "onedrive.com"
+| where FileName endswith ".zip" or FileName endswith ".7z"
+```
+
+---
+
+## Mitigation & Response Actions
+
+- **Block execution of unauthorized PowerShell scripts** using Windows Defender Application Control (WDAC) or Attack Surface Reduction (ASR) rules.
+- **Restrict software installation permissions** to prevent users from installing 7-Zip or other tools without approval.
+- **Enable file integrity monitoring (FIM)** to detect unauthorized changes to sensitive folders.
+- **Monitor endpoint activity in real-time** using MDE’s Live Response feature for deeper forensic analysis.
+
 
 ## Communicate Findings
 Share your hunting discoveries with relevant stakeholders, such as the **SOC, system owners, or security teams**. Methods can include:
