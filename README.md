@@ -61,6 +61,23 @@ DeviceFileEvents
 ![DeviceFileEvents](https://github.com/user-attachments/assets/a8ce2206-115f-4499-8a4b-49e03cdd06f6)
 
 
+------
+
+I identified an instance of a zip file being created, noted the timestamp, and searched within ``DeviceProcessEvents`` for any activity occurring two minutes before and after the archive's creation. During this timeframe, I discovered that a PowerShell script had silently installed 7-Zip and then used it to compress employee data into an archive.
+
+```
+let VMName = "andrew-sentinel";
+let specificTime = datetime(2025-03-17T00:04:21.1003474Z);
+DeviceProcessEvents
+| where Timestamp between ((specificTime - 2m) .. (specificTime + 2m))
+| where DeviceName == VMName
+| order by Timestamp desc
+| project Timestamp, DeviceName, ActionType, FileName, ProcessCommandLine
+```
+![deviceprocessevents](https://github.com/user-attachments/assets/3cf0cf14-c7b0-44da-8355-dc93b9d9f385)
+
+
+
 ## Analyze
 You have gathered and cleaned up all your essential data, it is time to execute your plan and analyze the data to look for evidence that supports or refutes your hypothesis.
 
