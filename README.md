@@ -79,47 +79,21 @@ DeviceProcessEvents
 
 
 ## Analyze
-You have gathered and cleaned up all your essential data, it is time to execute your plan and analyze the data to look for evidence that supports or refutes your hypothesis.
 
-### **Approach 1: Sensor Health (DS0013) - Detecting High CPU Usage**
-```spl
-index=botsv3 sourcetype="perfmonmk:process" 
-    [search index=botsv3 sourcetype="perfmonmk:process" process_cpu_used_percent>=90 Elapsed_Time>=300
-    | table host, process_name, process_id 
-    | dedup host, process_name, process_id]
-| eval high_cpu=if(process_cpu_used_percent>=90, 1, 0)
-| stats count, earliest(_time) as et, latest(_time) as lt, max(Elapsed_Time) as elapsed, min(process_cpu_used_percent), max(process_cpu_used_percent), avg(process_cpu_used_percent) as avg_cpu, sum(high_cpu) as high_cpu by host, process_name, process_id
-| convert ctime(et), ctime(lt)
-| eval risk_score=(high_cpu/elapsed)*100
-| sort - risk_score
+However, even after searching around the same time period, there was no indication of successful data exfiltration within the Network Event logs. After adjusting the Timestamp to search a day before and after, there were still no indications of successfull exfiltration or even attempt to try.
+
+```
+let VMName = "andrew-sentinel";
+let specificTime = datetime(2025-03-17T00:04:21.1003474Z);
+DeviceNetworkEvents
+| where Timestamp between ((specificTime - 2m) .. (specificTime + 2m))
+| where DeviceName == VMName
+| order by Timestamp desc
+| project Timestamp, ActionType = "ConnectionSuccess", RemoteIP, RemotePort, RemoteUrl, InitiatingProcessFileName, InitiatingProcessCommandLine
 ```
 
-According to MITRE ATT&CK, we should consider monitoring process resource usage to determine anomalous activity associated with malicious hijacking of computer resources such as CPU or GPU resources. None of our systems have much GPU power to speak of, so we’ll concentrate on long-running processes with significant, sustained CPU usage. 
-
-Our SPL searches for any process that lasts for at least five minutes and above and has a CPU utilization of 90% or more throughout its lifetime. This cutoff of 90% is arbitrary and should be set according to the threat hunter’s own risk appetite, their knowledge of their network environment, and any threat intelligence available. Additionally, there are summary statistics included to help the hunter with information such as minimum, maximum, and average CPU utilization, and also counts of CPU utilization spikes. We calculate a simple risk score based on the number of events showing high CPU usage over the process's lifetime. Processes with higher risk scores are more likely related to cryptomining activities.
-Note that the five-minute threshold is an artifact of our simulated dataset. In a production computing environment, a cryptominer would probably run for far longer. If you reproduce this hunt with your own data, you’ll almost certainly want to extend this time. 30 minutes, or even longer, would probably be more useful.
-The search returns three processes that have sustained CPU utilization across most of their runtime, all on the host BSTOLL-L. However, the Chrome process (chrome#4) immediately stands out as it has the highest risk score and the highest number of high CPU events over the second-longest elapsed time. Also, the other two results are legitimate Windows processes and are known to use large amounts of CPU from time to time. 
-
-While high utilization from a Chrome process does not confirm the existence of cryptomining, it does suggest that if this were a cryptominer, it would most likely be browser-based. From our research, we know that families such as CoinHive, Crypto-Loot, and JSEcoin are miners that run inside browser tabs, so this Chrome process is a plausible candidate for a cryptominer. However, we can’t jump to conclusions; more investigation is required to verify that this is actually a cryptominer. 
-### **Approach 2: Network Traffic (DS0029) - Detecting Cryptomining Domains**
-```spl
-index=botsv3 sourcetype="stream:dns" 
-| lookup cryptocurrency_mining_list_large.csv domain AS query OUTPUTNEW domain AS domain_matched
-| stats min(_time) as first_seen, max(_time) as last_seen, count  by host, domain_matched
-| table domain_matched, host, first_seen, last_seen, count
-| convert ctime(first_seen), ctime(last_seen)
-| sort +first_seen
-```
-According to MITRE ATT&CK, we could monitor for newly constructed network connections that are sent or received by untrusted hosts, look for connections to/from strange ports, check the reputation of IPs and URLs, and monitor network data for uncommon data flows. There are many ways we might identify cryptominers, but just looking for anomalous network connections is time-consuming and not really focused on our topic, specifically. Instead, we want to find connections to known blacklisted cryptomining domains, which we’ll identify using DNS query logs.
-
-In our research, we found some lists of domains used by CoinHive and similar JavaScript bitcoin miners. In total, we found about 4.6k domains, which we uploaded to our Splunk search head as a CSV file. The following query will identify DNS queries for any of the uploaded domains:
-# Escalate Critical Findings
-We found **BSTOLL-L running a cryptominer**, as evidenced by:
-1. **High CPU utilization** from a Chrome process.
-2. **DNS queries to Coinhive domains.**
-These results show that there were DNS lookups for coinhive[.]com and five of its subdomains, all from the same computer (BSTOLL-L). This is the same system that hosted the suspicious Chrome process. The two findings support each other, and we can be reasonably sure that a cryptominer was running on BSTOLL-L.
 ### **Executive Summary**
-> **Between 13:38:19 PM and 13:39:30 PM on Aug 20, 2018, host BSTOLL-L was observed querying Coinhive cryptocurrency mining domains. Shortly after, the ‘chrome#4’ browser (PID 3400) showed CPU utilization surging to 100% for 26 minutes, suggesting unauthorized cryptomining.**
+> **On (2025-03-17T00:04:21.1003474Z) evidence was found that John Doe used a powershell script to compress data into a 7zip file and archived it into a "backup" folder, no evidence was found of that data being exfiltrated.**
 
 ---
 ## Refine Hypothesis
