@@ -30,7 +30,7 @@ Your task is to investigate John's activities on his corporate device (Andrew-Se
 - **Actor**: Employee John Doe
 - **Behavior**: Based on research, we know that threat actors will typically compress data in order to exfiltrate. We will look for any compression tools used recently by John
 - **Location**: Azure VM endpoint (Andrew-Sentinel)
-- **Evidence**: Using KQL, search for any relevant tables that prove the use of Data Exfiltration 
+- **Evidence**: Using KQL, query MDE to find any evidence of compression and/or encryption tools being used by John. Also find any evidence of successful exfiltration to a possible C2 server, device, or anything related. 
 
 
 # Plan
