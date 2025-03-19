@@ -45,22 +45,21 @@ Query the following tables:
 
 ---
 
-# Execute: Rooting Out the Bad Guys
+# Execute
 
 ## Gather Data
-The first step is to gather the data needed for your hunt. The path to data collection may vary, especially if your organization already has a SIEM collecting the various data sources into a central location for analysis. In cases where SIEM is not in place or does not cover all the required data sources, you might have to identify the specific server(s) and locations on disk from which to collect the data, then manually transfer them to the analysis system. In our example, the data we need has already been loaded into Splunk.
-
-The perfmon data (sourcetype=PerfmonMk:Process) has information about processes running on the system, as captured in roughly 10 second intervals by Microsoft’s Performance Monitor. Events here are periodic snapshots of process data with point-in-time CPU utilization information with fields such as  process_name, process_cpu_used_percent and process_mem_used. This would be useful in our Approach 1 as we will be able to observe how some processes are utilizing CPU across time and we will be able to drill down to processes with notably high CPU utilization. For illustration purposes, here are several entries for the same process, a particular instance of MsMpEng.exe, during its lifetime.
-
-![image](https://github.com/user-attachments/assets/b9850fac-8d55-4320-a2a3-0b1e8fc88b8e)
-
-The DNS query data (sourcetype=stream:dns) is more straightforward. It has information about DNS requests gathered from DNS server logs. The entries contain fields such as dest_ip, src_ip, dest_port, src_port, bytes, and query. This would be used in Approach 2 to find out if any of the hosts made any successful connections to known cryptomining domains. 
 
 
-## Pre-Process Data
-There are times when the collected data may not be in the optimal state for analysis. This can be due to data having missing values, malformed or corrupted entries, or even just because the data format is not compatible with your analysis system (e.g., you need CSV format, but it’s in JSON). If the data is already in Splunk, there’s a good chance that it’s already been cleaned and normalized, though this isn’t guaranteed. This step may require you to do some data cleaning and normalization in order for you to begin your analysis.
+We searched within MDE ``DeviceFileEvents`` for any zip file activity and observed frequent instances of files being archived and moved to a "backup" folder as part of regular activity.
 
-In our example, the BOTSv3 data is ready for analysis, hence sparing us the need for extensive cleaning and normalization. 
+```
+DeviceFileEvents
+| where DeviceName == "andrew-sentinel"
+| where FileName endswith ".zip"
+| order by Timestamp desc
+```
+![DeviceFileEvents](https://github.com/user-attachments/assets/a8ce2206-115f-4499-8a4b-49e03cdd06f6)
+
 
 ## Analyze
 You have gathered and cleaned up all your essential data, it is time to execute your plan and analyze the data to look for evidence that supports or refutes your hypothesis.
