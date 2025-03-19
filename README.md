@@ -96,20 +96,20 @@ DeviceNetworkEvents
 > **On (2025-03-17T00:04:21.1003474Z) evidence was found that John Doe used a powershell script to compress data into a 7zip file and archived it into a "backup" folder, no evidence was found of that data being exfiltrated.**
 
 ---
-## Refine Hypothesis
-This step is optional but may be necessary when you are unable to confirm or deny your initial hypothesis. In our sample hunt, we managed to find traces of cryptomining activities on both approaches, which confirmed our initial hypothesis, hence there is no need to refine it.
-
 
 # Act: Wrapping Up the Investigation
-The “Act” phase is all about making sure the knowledge gained from your hunt is captured and acted on. It’s what allows hunting to drive security improvement in your organization. 
 
 ## Preserve Hunt
-The techniques used in your hunt can be archived as **detection rules** for future hunts. Archive the following:
-- Hunt topic 
-- Hypothesis
-- Data sources
-- Analysis techniques
-- Queries and code samples
+A summary of this hunt can be used in the future if suspected data exfiltration is seen
+- Hunt topic: Exfiltration
+- Data sources: Microsoft Defender for Endpoint(MDE). Microsoft Sentinel. Azure VMs
+- Analysis techniques: Search for compression/encryption tools. Utilize network logs to find that data was successfully exfiltrated. Keep the timeframe relevant to your hypothesis.
+- KQL Tables:
+```
+  DeviceFileEvents
+  DeviceProcessEvents
+  DeviceNetworkEvents
+```
 
 ## Document Findings
 Your documentation of findings represents the significance and impact of your hunt. Include:
