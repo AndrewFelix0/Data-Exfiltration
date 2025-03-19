@@ -23,9 +23,9 @@ Data exfiltration is the act of collecting data from a network and moving that d
 An employee named John Doe, working in a sensitive department, recently got put on a performance improvement plan (PIP). After John threw a fit, management has raised concerns that John may be planning to steal proprietary information and then quit the company. John is an administrator on his device and is not limited on which applications he uses. He may try to archive/compress sensitive information and send it to a private drive or server.
 
 ## Scope Hunt
-Your task is to investigate John's activities on his corporate device (Andrew-Sentinel) using Microsoft Defender for Endpoint (MDE) and ensure nothing suspicious is taking place
+Your task is to investigate John's activities on his corporate device (Andrew-Sentinel) using Microsoft Defender for Endpoint (MDE) and ensure nothing suspicious is taking place.
 
-### **ABLE Framework for Cryptomining Hunt**
+### **ABLE Framework for Exfiltration Hunt**
 
 - **Actor**: Employee John Doe
 - **Behavior**: Based on research, we know that threat actors will typically compress data in order to exfiltrate. We will look for any compression tools used recently by John
